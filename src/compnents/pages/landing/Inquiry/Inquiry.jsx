@@ -8,7 +8,7 @@ const GlobalFonts = createGlobalStyle`
 const MainContainer = styled.div`
   background:
     linear-gradient(94.99deg, #2c7cf1 7.19%, rgba(0, 209, 255, 0.5) 89.49%),
-    url("/public/Assets/Pages/Landing/Inquiry/background.png");
+    url("/Assets/Pages/Landing/Inquiry/background.png");
   background-size: cover;
   background-position: center;
   width: 100%;

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const MainContainer = styled.div`
   width: 100%;
@@ -62,7 +63,7 @@ const CenterContainer = styled.div`
   width: 60%;
   height: 360px;
   margin: 0 15px;
-  background-image: url("/public/Assets/Pages/Landing/Hero/Hero.png");
+  background-image: url("/Assets/Pages/Landing/Hero/Hero.png");
   background-size: cover;
   background-position: center;
   border-radius: 8px;
@@ -305,6 +306,7 @@ const Hero = () => {
   const [learnHovered, setLearnHovered] = useState(false);
   const [learnActive, setLearnActive] = useState(false);
   const [activeCategory, setActiveCategory] = useState(0);
+  const navigate = useNavigate();
 
   const categories = [
     "Automobiles",
@@ -326,7 +328,11 @@ const Hero = () => {
             <CategoryItem
               key={index}
               $isActive={activeCategory === index}
-              onClick={() => setActiveCategory(index)}
+              onClick={() => {
+                setActiveCategory(index);
+                const toSlug = (str) => str.toLowerCase().replace(/\s+/g, "-");
+                navigate(`/${toSlug(category)}`);
+              }}
             >
               {category}
             </CategoryItem>
@@ -356,10 +362,7 @@ const Hero = () => {
         <UserBlock>
           <UserImageGroup>
             <UserImage>
-              <img
-                src="/public/Assets/Pages/Landing/Hero/avatar.png"
-                alt="User"
-              />
+              <img src="/Assets/Pages/Landing/Hero/avatar.png" alt="User" />
             </UserImage>
             <span>
               Hi, user <br /> Let's get started

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { FaUserLarge } from "react-icons/fa6";
 import { MdMessage } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
@@ -15,7 +16,7 @@ const NavbarContainer = styled.nav`
   background-color: #fff;
 `;
 
-const UpperNavbarContainer = styled.nav`
+const UpperNavbarContainer = styled.div`
   width: 85%;
   max-width: 1200px;
   min-height: 86px;
@@ -39,13 +40,15 @@ const UpperNavbarContainer = styled.nav`
   }
 `;
 
-const Logo = styled.div`
+// Logo is now a Link so clicking it goes home
+const LogoLink = styled(Link)`
   font-size: 24px;
   color: #8cb7f5;
   font-weight: bold;
   display: flex;
   align-items: center;
   flex-shrink: 0;
+  text-decoration: none;
 
   img {
     width: 44px;
@@ -226,7 +229,7 @@ const IconLink = styled.div`
   }
 `;
 
-const LowerNavbarContainer = styled.nav`
+const LowerNavbarContainer = styled.div`
   width: 100%;
   min-height: 56px;
   display: flex;
@@ -428,18 +431,21 @@ const Hamburger = styled.button`
   }
 `;
 
+const toSlug = (str) => str.toLowerCase().replace(/\s+/g, "-");
+
+const menuItems = [
+  { label: "All Category", href: "/all" },
+  { label: "Hot Offers", href: "/hot-offers" },
+  { label: "Gift Boxes", href: "/gift-boxes" },
+  { label: "Projects", href: "/projects" },
+  { label: "Menu Item", href: "/menu-item" },
+  { label: "Help", href: "/help" },
+];
+
 const Navbar = () => {
   const [activeIcon, setActiveIcon] = useState(null);
-  const [activeMenuItem, setActiveMenuItem] = useState(0);
-
-  const menuItems = [
-    "All Category",
-    "Hot Offers",
-    "Git Boxes",
-    "Projects",
-    "Menu Item",
-    "Help",
-  ];
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   return (
     <NavbarContainer>
@@ -448,11 +454,12 @@ const Navbar = () => {
           <Hamburger aria-label="Menu">
             <FaBars />
           </Hamburger>
-          <Logo>
-            <img src="/public/Assets/Navbar/logo-symbol.svg" alt="Logo" />
+          <LogoLink to="/">
+            <img src="/Assets/Navbar/logo-symbol.svg" alt="Logo" />
             Brand
-          </Logo>
+          </LogoLink>
         </LeftGroup>
+
         <SearchBarContainer>
           <input type="text" placeholder="Search" id="searchbox" />
           <select name="categories" id="categories">
@@ -465,6 +472,7 @@ const Navbar = () => {
           </select>
           <input type="button" value="Search" id="search" />
         </SearchBarContainer>
+
         <LinksContainer>
           <IconLink
             $isActive={activeIcon === "profile"}
@@ -496,19 +504,21 @@ const Navbar = () => {
           </IconLink>
         </LinksContainer>
       </UpperNavbarContainer>
+
       <LowerNavbarContainer>
         <LowerNavbarContent>
           <NavMenu>
             {menuItems.map((item, index) => (
               <NavMenuItem
                 key={index}
-                $isActive={activeMenuItem === index}
-                onClick={() => setActiveMenuItem(index)}
+                $isActive={pathname === item.href}
+                onClick={() => navigate(item.href)}
               >
-                {item}
+                {item.label}
               </NavMenuItem>
             ))}
           </NavMenu>
+
           <SelectorsContainer>
             <select>
               <option>US Dollar, USD</option>

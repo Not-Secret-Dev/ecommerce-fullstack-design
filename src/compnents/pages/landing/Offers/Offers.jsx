@@ -275,25 +275,25 @@ const Offers = () => {
     {
       id: 1,
       title: "Smart watches",
-      image: "/public/Assets/Pages/Landing/Offers/smartwatch.png",
+      image: "/Assets/Pages/Landing/Offers/smartwatch.png",
       disc: "-25%",
     },
     {
       id: 2,
       title: "Laptops",
-      image: "/public/Assets/Pages/Landing/Offers/laptop.png",
+      image: "/Assets/Pages/Landing/Offers/laptop.png",
       disc: "-15%",
     },
     {
       id: 3,
       title: "GoPro Cameras",
-      image: "/public/Assets/Pages/Landing/Offers/camera.png",
+      image: "/Assets/Pages/Landing/Offers/camera.png",
       disc: "-40%",
     },
     {
       id: 4,
       title: "Wireless Headphones",
-      image: "/public/Assets/Pages/Landing/Offers/headphone.png",
+      image: "/Assets/Pages/Landing/Offers/headphone.png",
       disc: "-25%",
     },
   ];

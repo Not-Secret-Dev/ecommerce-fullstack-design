@@ -7,7 +7,7 @@ import Inquiry from "./Inquiry/Inquiry.jsx";
 import Recommended from "./Recommended/Recommended.jsx";
 import ExtraServices from "./ExtraServices/ExtraServices.jsx";
 import SuppliersByRegion from "./SuppliersByRegion/SuppliersByRegion.jsx";
-import Newsletter from "./Newsletter/Newsletter.jsx";
+
 
 const Landing = () => {
   return (
@@ -20,7 +20,6 @@ const Landing = () => {
       <Recommended />
       <ExtraServices />
       <SuppliersByRegion />
-      <Newsletter />
     </div>
   );
 };

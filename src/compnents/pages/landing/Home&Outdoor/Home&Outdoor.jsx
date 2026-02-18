@@ -29,7 +29,7 @@ const ImagePanel = styled.div`
   flex-direction: column;
   justify-content: space-between;
   border-right: 1px solid #dee2e7;
-  background: url("/public/Assets/Pages/Landing/H&O/background.jpg") no-repeat;
+  background: url("/Assets/Pages/Landing/H&O/background.jpg") no-repeat;
   background-size: cover;
   background-position: left;
   transform: scaleX(-1);
