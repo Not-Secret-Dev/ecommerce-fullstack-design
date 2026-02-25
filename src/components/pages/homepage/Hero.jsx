@@ -30,7 +30,7 @@ const HeroBackground = styled.div`
   flex-direction: column;
   border-radius: 24px;
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
@@ -57,7 +57,7 @@ const HeroTitle = styled.p`
   }
 `;
 
-const HeroSubtitle = styled.h1`
+const HeroSubtitle = styled.p`
   font-size: 2rem;
   color: #fff;
   margin: 0;

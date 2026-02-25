@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { Link, NavLink } from "react-router-dom"; // Added Link and NavLink
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { MdClose } from "react-icons/md";
@@ -31,7 +32,8 @@ const NavbarContent = styled.div`
   gap: 10px;
 `;
 
-const Logo = styled.div`
+const Logo = styled(Link)`
+  // Changed to Link
   font-size: 20px;
   font-weight: 600;
   display: flex;
@@ -40,6 +42,8 @@ const Logo = styled.div`
   gap: 8px;
   cursor: pointer;
   flex-shrink: 0;
+  text-decoration: none; // Remove default link styling
+  color: inherit;
 
   img {
     height: 24px;
@@ -60,19 +64,27 @@ const Navlist = styled.ul`
   margin: 0;
   padding: 0;
 
-  li {
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    transition: color 0.3s ease;
-
-    &:hover {
-      color: #666;
-    }
-  }
-
   @media (max-width: 768px) {
     display: none;
+  }
+`;
+
+// Styled NavLink for active states
+const StyledNavLink = styled(NavLink)`
+  text-decoration: none;
+  color: #111;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #6ada1b;
+  }
+
+  &.active {
+    color: #6ada1b;
+    border-bottom: 2px solid #6ada1b;
+    padding-bottom: 4px;
   }
 `;
 
@@ -87,18 +99,17 @@ const IconsContainer = styled.div`
   }
 `;
 
-const CartIcon = styled.div`
+const CartIcon = styled(Link)`
+  // Changed to Link
   cursor: pointer;
   display: flex;
   align-items: center;
   transition: transform 0.2s ease;
+  color: inherit;
+  text-decoration: none;
 
   &:hover {
     transform: scale(1.1);
-  }
-
-  @media (max-width: 768px) {
-    display: flex;
   }
 `;
 
@@ -120,28 +131,18 @@ const HamburgerIcon = styled.div`
 
 const MobileMenu = styled.div`
   position: fixed;
-  top: 60px;
+  top: 0; // Better to cover full screen for mobile menus
   left: 0;
   width: 100%;
-  height: calc(100vh - 60px);
+  height: 100vh;
   background-color: #fff;
   display: flex;
   flex-direction: column;
   padding: 20px;
-  z-index: 99;
+  z-index: 101;
   transform: translateX(${(props) => (props.$isOpen ? "0" : "-100%")});
   transition: transform 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
   box-sizing: border-box;
-
-  @media (min-width: 769px) {
-    display: none;
-  }
-
-  @media (max-width: 480px) {
-    padding: 15px;
-  }
 `;
 
 const MobileMenuList = styled.ul`
@@ -150,19 +151,20 @@ const MobileMenuList = styled.ul`
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
+`;
 
-  li {
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
-    transition: color 0.3s ease;
+const MobileNavLink = styled(NavLink)`
+  text-decoration: none;
+  color: #111;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+  display: block;
 
-    &:hover {
-      color: #666;
-    }
+  &.active {
+    color: #6ada1b;
   }
 `;
 
@@ -172,7 +174,6 @@ const CloseButton = styled.div`
   margin-bottom: 20px;
   cursor: pointer;
   font-size: 28px;
-  width: 100%;
 `;
 
 const Overlay = styled.div`
@@ -184,56 +185,48 @@ const Overlay = styled.div`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 98;
-
-  @media (min-width: 769px) {
-    display: none;
-  }
 `;
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const closeMenu = () => setIsMenuOpen(false);
 
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
-
-  // Prevent body scroll when menu is open
   useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
+    document.body.style.overflow = isMenuOpen ? "hidden" : "unset";
     return () => {
       document.body.style.overflow = "unset";
     };
   }, [isMenuOpen]);
 
-  const navItems = ["Home", "Shop", "About", "Contact"];
+  // Map nav names to paths defined in App.jsx
+  const navItems = [
+    { name: "Home", path: "/" },
+    { name: "Shop", path: "/listings" },
+    { name: "About", path: "/about" }, // Path placeholder
+    { name: "Contact", path: "/contact" }, // Path placeholder
+  ];
 
   return (
     <>
       <NavbarContainer>
         <NavbarContent>
-          <Logo>
+          <Logo to="/" onClick={closeMenu}>
             <img src="/assets/global/logo.png" alt="Logo" />
             LUXE
           </Logo>
 
-          {/* Desktop Navigation */}
           <Navlist>
             {navItems.map((item) => (
-              <li key={item}>{item}</li>
+              <li key={item.name}>
+                <StyledNavLink to={item.path}>{item.name}</StyledNavLink>
+              </li>
             ))}
           </Navlist>
 
-          {/* Icons and Hamburger */}
           <IconsContainer>
-            <CartIcon>
+            <CartIcon to="/cart">
               <MdOutlineShoppingCart size={24} />
             </CartIcon>
             <HamburgerIcon onClick={toggleMenu}>
@@ -243,16 +236,18 @@ const Navbar = () => {
         </NavbarContent>
       </NavbarContainer>
 
-      {/* Mobile Menu */}
       <Overlay $isOpen={isMenuOpen} onClick={closeMenu} />
+
       <MobileMenu $isOpen={isMenuOpen}>
         <CloseButton onClick={closeMenu}>
           <MdClose />
         </CloseButton>
         <MobileMenuList>
           {navItems.map((item) => (
-            <li key={item} onClick={closeMenu}>
-              {item}
+            <li key={item.name}>
+              <MobileNavLink to={item.path} onClick={closeMenu}>
+                {item.name}
+              </MobileNavLink>
             </li>
           ))}
         </MobileMenuList>

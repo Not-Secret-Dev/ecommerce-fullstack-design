@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom"; // Import Link for routing
 
 const breakpoints = {
   mobile: "600px",
@@ -37,11 +38,13 @@ const FooterColumn = styled.div`
   gap: 15px;
 `;
 
-const Logo = styled.h2`
+const Logo = styled(Link)`
+  // Changed to Link
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0;
   color: #fff;
+  text-decoration: none; // Remove default link styling
 
   span {
     color: #6ada1b;
@@ -56,12 +59,25 @@ const ColumnTitle = styled.h4`
   color: #6ada1b;
 `;
 
-const FooterLink = styled.a`
+const FooterLink = styled(Link)`
+  // Changed to Link
   color: #ccc;
   text-decoration: none;
   font-size: 0.9rem;
   transition: color 0.3s ease;
   cursor: pointer;
+
+  &:hover {
+    color: #6ada1b; // Using your signature green for hover
+  }
+`;
+
+// Separate style for external social links
+const ExternalLink = styled.a`
+  color: #ccc;
+  text-decoration: none;
+  font-size: 0.8rem;
+  transition: color 0.3s ease;
 
   &:hover {
     color: #fff;
@@ -97,7 +113,7 @@ const Footer = () => {
     <FooterContainer>
       <FooterGrid>
         <FooterColumn>
-          <Logo>
+          <Logo to="/">
             LUXE<span>.</span>
           </Logo>
           <BottomText style={{ maxWidth: "250px" }}>
@@ -108,37 +124,53 @@ const Footer = () => {
 
         <FooterColumn>
           <ColumnTitle>Shop</ColumnTitle>
-          <FooterLink>All Collections</FooterLink>
-          <FooterLink>Apparel</FooterLink>
-          <FooterLink>Leather Goods</FooterLink>
-          <FooterLink>Beauty</FooterLink>
+          <FooterLink to="/listings">All Collections</FooterLink>
+          <FooterLink to="/listings">Apparel</FooterLink>
+          <FooterLink to="/listings">Leather Goods</FooterLink>
+          <FooterLink to="/listings">Beauty</FooterLink>
         </FooterColumn>
 
         <FooterColumn>
           <ColumnTitle>Support</ColumnTitle>
-          <FooterLink>Contact Us</FooterLink>
-          <FooterLink>Shipping & Returns</FooterLink>
-          <FooterLink>Size Guide</FooterLink>
-          <FooterLink>FAQs</FooterLink>
+          <FooterLink to="/contact">Contact Us</FooterLink>
+          <FooterLink to="/shipping">Shipping & Returns</FooterLink>
+          <FooterLink to="/faq">FAQs</FooterLink>
         </FooterColumn>
 
         <FooterColumn>
           <ColumnTitle>Legal (Germany)</ColumnTitle>
-          <FooterLink>Impressum</FooterLink>
-          <FooterLink>Datenschutz (Privacy)</FooterLink>
-          <FooterLink>Terms of Service</FooterLink>
-          <FooterLink>Cookie Settings</FooterLink>
+          <FooterLink to="/impressum">Impressum</FooterLink>
+          <FooterLink to="/privacy">Datenschutz</FooterLink>
+          <FooterLink to="/tos">Terms of Service</FooterLink>
         </FooterColumn>
       </FooterGrid>
 
       <CopyrightSection>
         <BottomText>
-          © {currentYear} Simplicity. Developed by Aayan Mumtaz.
+          © {currentYear} Luxe Simplicity. Developed by Aayan Mumtaz.
         </BottomText>
         <div style={{ display: "flex", gap: "20px" }}>
-          <FooterLink style={{ fontSize: "0.8rem" }}>Instagram</FooterLink>
-          <FooterLink style={{ fontSize: "0.8rem" }}>LinkedIn</FooterLink>
-          <FooterLink style={{ fontSize: "0.8rem" }}>GitHub</FooterLink>
+          <ExternalLink
+            href="https://instagram.com"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Instagram
+          </ExternalLink>
+          <ExternalLink
+            href="https://linkedin.com"
+            target="_blank"
+            rel="noreferrer"
+          >
+            LinkedIn
+          </ExternalLink>
+          <ExternalLink
+            href="https://github.com"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub
+          </ExternalLink>
         </div>
       </CopyrightSection>
     </FooterContainer>
