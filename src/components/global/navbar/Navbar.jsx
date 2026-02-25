@@ -6,7 +6,7 @@ import { MdClose } from "react-icons/md";
 
 const NavbarContainer = styled.div`
   width: 100%;
-  height: 60px;
+  height: 80px;
   display: flex;
   align-items: center;
   padding: 0 15px;
