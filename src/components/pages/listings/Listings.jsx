@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import FiltersSidebar from "./sidebar";
 import ProductCards from "./ProductCards";
@@ -6,7 +6,9 @@ import ProductCards from "./ProductCards";
 const ListingsContainer = styled.div`
   display: flex;
   min-height: 100vh;
-  background: #fafafa;
+  background: #ffffff;
+  max-width: 1600px;
+  margin: 0 auto;
 `;
 
 const Listings = () => {
@@ -17,21 +19,18 @@ const Listings = () => {
     rating: [],
     availability: [],
   });
-
   const [sortBy, setSortBy] = useState("featured");
   const [viewMode, setViewMode] = useState("grid");
 
-  const handleFiltersApply = useCallback((newFilters) => {
-    setFilters(newFilters);
-  }, []);
-
-  const handleSortChange = useCallback((e) => {
-    setSortBy(e.target.value);
-  }, []);
-
-  const toggleViewMode = useCallback(() => {
-    setViewMode((prev) => (prev === "grid" ? "list" : "grid"));
-  }, []);
+  const handleFiltersApply = useCallback(
+    (newFilters) => setFilters(newFilters),
+    [],
+  );
+  const handleSortChange = useCallback((e) => setSortBy(e.target.value), []);
+  const toggleViewMode = useCallback(
+    () => setViewMode((p) => (p === "grid" ? "list" : "grid")),
+    [],
+  );
 
   return (
     <ListingsContainer>

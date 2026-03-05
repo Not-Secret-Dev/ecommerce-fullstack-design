@@ -1,257 +1,212 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Link, NavLink } from "react-router-dom"; // Added Link and NavLink
+import { Link, NavLink } from "react-router-dom";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
-import { MdClose } from "react-icons/md";
+import { VscChromeClose } from "react-icons/vsc"; // More minimal close icon
 
-const NavbarContainer = styled.div`
+const Nav = styled.nav`
   width: 100%;
-  height: 80px;
+  height: 90px;
   display: flex;
   align-items: center;
-  padding: 0 15px;
-  background-color: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 0 5%;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
   box-sizing: border-box;
+  transition: all 0.3s ease;
 
   @media (max-width: 768px) {
-    padding: 0 10px;
+    height: 70px;
   }
 `;
 
-const NavbarContent = styled.div`
+const Content = styled.div`
   width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-sizing: border-box;
-  gap: 10px;
 `;
 
 const Logo = styled(Link)`
-  // Changed to Link
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 4px;
+  text-decoration: none;
+  color: #111;
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  flex-shrink: 0;
-  text-decoration: none; // Remove default link styling
-  color: inherit;
+  gap: 10px;
 
   img {
-    height: 24px;
-    width: auto;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 16px;
-    gap: 6px;
+    height: 28px;
+    filter: grayscale(1);
   }
 `;
 
-const Navlist = styled.ul`
+const NavList = styled.ul`
   display: flex;
-  align-items: center;
-  gap: 20px;
+  gap: 40px;
   list-style: none;
-  margin: 0;
-  padding: 0;
 
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     display: none;
   }
 `;
 
-// Styled NavLink for active states
 const StyledNavLink = styled(NavLink)`
   text-decoration: none;
   color: #111;
-  font-size: 14px;
-  font-weight: 500;
-  transition: color 0.3s ease;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  padding: 5px 0;
 
-  &:hover {
-    color: #6ada1b;
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 1.5px;
+    background: #6ada1b;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
   }
 
-  &.active {
-    color: #6ada1b;
-    border-bottom: 2px solid #6ada1b;
-    padding-bottom: 4px;
+  &:hover::after,
+  &.active::after {
+    width: 100%;
   }
 `;
 
-const IconsContainer = styled.div`
+const Icons = styled.div`
   display: flex;
   align-items: center;
-  gap: 15px;
-  flex-shrink: 0;
-
-  @media (max-width: 768px) {
-    gap: 10px;
-  }
+  gap: 25px;
 `;
 
-const CartIcon = styled(Link)`
-  // Changed to Link
+const IconButton = styled(Link)`
+  color: #111;
   cursor: pointer;
   display: flex;
-  align-items: center;
-  transition: transform 0.2s ease;
-  color: inherit;
-  text-decoration: none;
-
+  transition: transform 0.3s ease;
   &:hover {
-    transform: scale(1.1);
+    transform: translateY(-2px);
+    color: #6ada1b;
   }
 `;
 
-const HamburgerIcon = styled.div`
+const MenuButton = styled.div`
   display: none;
   cursor: pointer;
-  font-size: 24px;
-  transition: transform 0.2s ease;
-
-  &:hover {
-    transform: scale(1.1);
-  }
-
-  @media (max-width: 768px) {
-    display: flex;
-    align-items: center;
+  font-size: 1.5rem;
+  @media (max-width: 900px) {
+    display: block;
   }
 `;
 
-const MobileMenu = styled.div`
-  position: fixed;
-  top: 0; // Better to cover full screen for mobile menus
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  z-index: 101;
-  transform: translateX(${(props) => (props.$isOpen ? "0" : "-100%")});
-  transition: transform 0.3s ease;
-  box-sizing: border-box;
-`;
-
-const MobileMenuList = styled.ul`
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
-
-const MobileNavLink = styled(NavLink)`
-  text-decoration: none;
-  color: #111;
-  font-size: 18px;
-  font-weight: 500;
-  padding: 15px 0;
-  border-bottom: 1px solid #eee;
-  display: block;
-
-  &.active {
-    color: #6ada1b;
-  }
-`;
-
-const CloseButton = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 20px;
-  cursor: pointer;
-  font-size: 28px;
-`;
-
-const Overlay = styled.div`
-  display: ${(props) => (props.$isOpen ? "block" : "none")};
+const MobileOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 98;
+  height: 100vh;
+  background: #fff;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  transform: translateY(${(props) => (props.$isOpen ? "0" : "-100%")});
+  transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+`;
+
+const MobileLink = styled(NavLink)`
+  font-size: 2.5rem;
+  font-weight: 300;
+  text-decoration: none;
+  color: #111;
+  margin-bottom: 20px;
+  &.active {
+    color: #6ada1b;
+    font-style: italic;
+  }
 `;
 
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const closeMenu = () => setIsMenuOpen(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? "hidden" : "unset";
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isMenuOpen]);
+    document.body.style.overflow = isOpen ? "hidden" : "unset";
+  }, [isOpen]);
 
-  // Map nav names to paths defined in App.jsx
   const navItems = [
     { name: "Home", path: "/" },
     { name: "Shop", path: "/listings" },
-    { name: "About", path: "/about" }, // Path placeholder
-    { name: "Contact", path: "/contact" }, // Path placeholder
+    { name: "About", path: "/about" },
+    { name: "Contact", path: "/contact" },
   ];
 
   return (
     <>
-      <NavbarContainer>
-        <NavbarContent>
-          <Logo to="/" onClick={closeMenu}>
-            <img src="/assets/global/logo.png" alt="Logo" />
-            LUXE
-          </Logo>
+      <Nav>
+        <Content>
+          <Logo to="/">LUXE</Logo>
 
-          <Navlist>
+          <NavList>
             {navItems.map((item) => (
               <li key={item.name}>
-                <StyledNavLink to={item.path}>{item.name}</StyledNavLink>
+                <StyledNavLink to={item.path} end>
+                  {item.name}
+                </StyledNavLink>
               </li>
             ))}
-          </Navlist>
+          </NavList>
 
-          <IconsContainer>
-            <CartIcon to="/cart">
-              <MdOutlineShoppingCart size={24} />
-            </CartIcon>
-            <HamburgerIcon onClick={toggleMenu}>
+          <Icons>
+            <IconButton to="/cart">
+              <MdOutlineShoppingCart size={22} />
+            </IconButton>
+            <MenuButton onClick={() => setIsOpen(true)}>
               <HiOutlineMenuAlt3 />
-            </HamburgerIcon>
-          </IconsContainer>
-        </NavbarContent>
-      </NavbarContainer>
+            </MenuButton>
+          </Icons>
+        </Content>
+      </Nav>
 
-      <Overlay $isOpen={isMenuOpen} onClick={closeMenu} />
-
-      <MobileMenu $isOpen={isMenuOpen}>
-        <CloseButton onClick={closeMenu}>
-          <MdClose />
-        </CloseButton>
-        <MobileMenuList>
+      <MobileOverlay $isOpen={isOpen}>
+        <div
+          style={{ alignSelf: "flex-end", cursor: "pointer" }}
+          onClick={() => setIsOpen(false)}
+        >
+          <VscChromeClose size={32} />
+        </div>
+        <div
+          style={{
+            marginTop: "60px",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           {navItems.map((item) => (
-            <li key={item.name}>
-              <MobileNavLink to={item.path} onClick={closeMenu}>
-                {item.name}
-              </MobileNavLink>
-            </li>
+            <MobileLink
+              key={item.name}
+              to={item.path}
+              onClick={() => setIsOpen(false)}
+            >
+              {item.name}
+            </MobileLink>
           ))}
-        </MobileMenuList>
-      </MobileMenu>
+        </div>
+      </MobileOverlay>
     </>
   );
 };

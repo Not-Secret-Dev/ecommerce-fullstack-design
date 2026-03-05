@@ -1,164 +1,93 @@
 import React from "react";
 import styled from "styled-components";
-
-const breakpoints = {
-  mobile: "480px",
-  tablet: "768px",
-  desktop: "1024px",
-};
+import { Link } from "react-router-dom"; // Import Link
 
 const HeroSection = styled.section`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background:
-    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-    url("/assets/pages/hero/bg.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  padding: 20px;
-  box-sizing: border-box;
-`;
-
-const HeroBackground = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  border-radius: 24px;
+  height: 90vh;
+  min-height: 500px;
   width: 100%;
-  max-width: 700px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  padding: 40px 20px;
-  text-align: center;
-  box-sizing: border-box;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-
-  @media (max-width: ${breakpoints.mobile}) {
-    padding: 30px 15px;
-    width: 95%;
-  }
+  position: relative;
+  display: flex;
+  align-items: end;
+  padding: 5%;
+  background:
+    linear-gradient(to right, rgba(0, 0, 0, 0.7) 0%, transparent 70%),
+    url("/assets/pages/hero/bg.jpg") center/cover no-repeat;
 `;
 
-const HeroTitle = styled.p`
-  font-size: 0.75rem;
-  letter-spacing: 2px;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 0.5rem;
-  text-transform: uppercase;
-
-  @media (min-width: ${breakpoints.tablet}) {
-    font-size: 0.9rem;
-  }
-`;
-
-const HeroSubtitle = styled.p`
-  font-size: 2rem;
+const HeroContent = styled.div`
+  max-width: 600px;
   color: #fff;
-  margin: 0;
-  line-height: 1.1;
+`;
 
+const MainTitle = styled.h1`
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 300;
+  line-height: 1;
+  margin-bottom: 30px;
   span {
-    font-weight: bold;
+    font-family: "Georgia", serif;
     font-style: italic;
   }
+`;
 
-  @media (min-width: ${breakpoints.tablet}) {
-    font-size: 3.5rem;
+// Styled Link that looks like a button
+const StyledLink = styled(Link)`
+  display: inline-block;
+  text-decoration: none;
+  padding: 16px 35px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  border: 1px solid transparent;
+
+  &.primary {
+    background: #6ada1b;
+    color: #000;
+    &:hover {
+      background: #fff;
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(106, 218, 27, 0.3);
+    }
+  }
+
+  &.ghost {
+    background: transparent;
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.5);
+    margin-left: 15px;
+    &:hover {
+      background: #fff;
+      color: #000;
+      border-color: #fff;
+      transform: translateY(-5px);
+    }
   }
 `;
 
-const HeroSubtitle2 = styled.p`
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.8);
-  margin-top: 1.5rem;
-  width: 100%;
-  max-width: 400px;
-  line-height: 1.5;
-
-  @media (min-width: ${breakpoints.tablet}) {
-    font-size: 1rem;
-  }
-`;
-
-const HeroButtonGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 2rem;
-  width: 100%;
-  max-width: 300px;
-
-  @media (min-width: ${breakpoints.mobile}) {
-    flex-direction: row;
-    max-width: none;
-    justify-content: center;
-  }
-`;
-
-const BaseButton = styled.button`
-  padding: 14px 28px;
-  font-size: 0.95rem;
-  border-radius: 40px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  font-weight: 600;
-  width: 100%;
-  border: none;
-
-  @media (min-width: ${breakpoints.mobile}) {
-    width: auto;
-    min-width: 160px;
-  }
-`;
-
-const ShopButton = styled(BaseButton)`
-  color: #000;
-  background-color: #6ada1b;
-
-  &:hover {
-    background-color: #5bc217;
-    transform: scale(1.02);
-  }
-`;
-
-const LookbookButton = styled(BaseButton)`
-  color: #fff;
-  background-color: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: #fff;
-  }
-`;
-
-const Hero = () => {
-  return (
-    <HeroSection>
-      <HeroBackground>
-        <HeroTitle>NEW COLLECTION 2026</HeroTitle>
-        <HeroSubtitle>
-          Defined by <span>Simplicity</span>
-        </HeroSubtitle>
-        <HeroSubtitle2>
-          Experience the intersection of architectural precision and
-          uncompromising comfort.
-        </HeroSubtitle2>
-        <HeroButtonGroup>
-          <ShopButton aria-label="Shop the new collection">Shop Now</ShopButton>
-          <LookbookButton aria-label="View our lookbook">
-            Lookbook
-          </LookbookButton>
-        </HeroButtonGroup>
-      </HeroBackground>
-    </HeroSection>
-  );
-};
+const Hero = () => (
+  <HeroSection>
+    <HeroContent>
+      <p
+        style={{ color: "#6ada1b", letterSpacing: "4px", marginBottom: "10px" }}
+      >
+        EST. 2026
+      </p>
+      <MainTitle>
+        Defined by <br />
+        <span>Simplicity</span>
+      </MainTitle>
+      <div>
+        <StyledLink to="/listings" className="primary">
+          Shop Now
+        </StyledLink>
+        <StyledLink to="/about" className="ghost">
+          Lookbook
+        </StyledLink>
+      </div>
+    </HeroContent>
+  </HeroSection>
+);
 
 export default Hero;
