@@ -88,7 +88,7 @@ const Button = styled.button`
   }
 `;
 
-export function ProductDetail() {
+export default function ProductDetail() {
   const [size, setSize] = useState("M");
   return (
     <DetailLayout>
