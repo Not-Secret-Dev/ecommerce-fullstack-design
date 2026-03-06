@@ -9,7 +9,7 @@ import Footer from "./components/global/footer/Footer";
 // Pages
 import Homepage from "./components/pages/homepage/Homepage";
 import Listings from "./components/pages/listings/Listings";
-import Product from "./components/pages/product/Product";
+import ProductDetail from "./components/pages/product/Product";
 import Cart from "./components/pages/cart/Cart";
 import Checkout from "./components/pages/checkout/Checkout";
 import About from "./components/pages/About/About";
@@ -46,7 +46,7 @@ function App() {
 
         {/* Shopping Routes */}
         <Route path="/listings" element={<Listings />} />
-        <Route path="/product/:id" element={<Product />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
 
         {/* Checkout Flow */}
         <Route path="/cart" element={<Cart />} />
